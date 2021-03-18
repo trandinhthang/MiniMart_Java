@@ -59,6 +59,8 @@ public class Category extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         CatTable = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        lblSanpham = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,7 +76,7 @@ public class Category extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabel2.setBackground(new java.awt.Color(0, 153, 255));
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Mã danh mục");
 
@@ -87,12 +89,12 @@ public class Category extends javax.swing.JFrame {
         });
 
         jLabel3.setBackground(new java.awt.Color(0, 153, 255));
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Tên danh mục");
 
         jLabel4.setBackground(new java.awt.Color(0, 153, 255));
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Mô tả");
 
@@ -155,7 +157,7 @@ public class Category extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         AddBtn.setBackground(new java.awt.Color(255, 255, 255));
-        AddBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        AddBtn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         AddBtn.setForeground(new java.awt.Color(0, 153, 255));
         AddBtn.setText("Add");
         AddBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -166,7 +168,7 @@ public class Category extends javax.swing.JFrame {
         });
 
         UpdateBtn.setBackground(new java.awt.Color(255, 255, 255));
-        UpdateBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        UpdateBtn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         UpdateBtn.setForeground(new java.awt.Color(0, 153, 255));
         UpdateBtn.setText("Update");
         UpdateBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -177,7 +179,7 @@ public class Category extends javax.swing.JFrame {
         });
 
         ClearBtn.setBackground(new java.awt.Color(255, 255, 255));
-        ClearBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        ClearBtn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         ClearBtn.setForeground(new java.awt.Color(0, 153, 255));
         ClearBtn.setText("Clear ");
         ClearBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -188,7 +190,7 @@ public class Category extends javax.swing.JFrame {
         });
 
         DeleteBtn.setBackground(new java.awt.Color(255, 255, 255));
-        DeleteBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        DeleteBtn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         DeleteBtn.setForeground(new java.awt.Color(0, 153, 255));
         DeleteBtn.setText("Delete ");
         DeleteBtn.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -292,12 +294,34 @@ public class Category extends javax.swing.JFrame {
                 .addGap(123, 123, 123))
         );
 
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 153, 255));
+        jLabel5.setText("NHÂN VIÊN");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
+        lblSanpham.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblSanpham.setForeground(new java.awt.Color(0, 153, 255));
+        lblSanpham.setText("SẢN PHẨM");
+        lblSanpham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblSanphamMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(176, Short.MAX_VALUE)
+                .addGap(19, 19, 19)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -306,6 +330,12 @@ public class Category extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 716, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -358,7 +388,7 @@ public class Category extends javax.swing.JFrame {
         
     }//GEN-LAST:event_AddBtnMouseClicked
 
-    // click item nào thì hiển thị trên ô text
+    // table mouse click
     private void CatTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CatTableMouseClicked
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)CatTable.getModel();
@@ -420,6 +450,18 @@ public class Category extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_UpdateBtnMouseClicked
 
+    private void lblSanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanphamMouseClicked
+        // TODO add your handling code here:
+        new Products().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblSanphamMouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+         new Staff().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -468,11 +510,13 @@ public class Category extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblSanpham;
     // End of variables declaration//GEN-END:variables
 }
