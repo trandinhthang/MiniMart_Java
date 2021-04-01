@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.proteanit.sql.DbUtils;
 
 
 /**
@@ -26,22 +27,38 @@ public class Selling extends javax.swing.JFrame {
      */
     public Selling() {
         initComponents();
-        SelectSeller();
+        SelectProduct();
     }
     Connection Con = null;
     Statement St = null;
     ResultSet Rs = null;
-
-     public void SelectSeller(){
-        try{
+  // click được từng item trong table
+    public void SelectProduct() {
+        try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
             St = Con.createStatement();
-            Rs = St.executeQuery("Select * from APP.SELLERTBL");
-            //SellerTable.setModel(DbUtils.resultSetToTableModel(Rs));
-        }catch(Exception e)
-        {
+            Rs = St.executeQuery("Select * from APP.PRODUCTTBL");
+            ProductTable.setModel(DbUtils.resultSetToTableModel(Rs));
+            
+        } catch (Exception e) {
             e.printStackTrace();
-        }
+        }      
+    }
+    
+    public void GetCat() {
+        try {
+            Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
+            St = Con.createStatement();
+            String query = "Select distinct CATNAME from APP.CATEGORYTBL";
+            Rs = St.executeQuery(query);
+            while(Rs.next()){
+                String Mycat = Rs.getString("CATNAME");
+                //CatCb.addItem(Mycat);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }    
     }
      int prid;
     public void update()
@@ -52,7 +69,7 @@ public class Selling extends javax.swing.JFrame {
                          + "where PRODID="+prid;
                  Statement Add = Con.createStatement();
                  Add.executeUpdate(Query);               
-                SelectSeller();
+                SelectProduct();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -78,10 +95,6 @@ public class Selling extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         ProdName = new javax.swing.JTextField();
         ProdQty = new javax.swing.JTextField();
-        ProdPrice = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        CatCb = new javax.swing.JComboBox<>();
         jPanel13 = new javax.swing.JPanel();
         AddBtn = new javax.swing.JButton();
         RefreshBtn = new javax.swing.JButton();
@@ -99,12 +112,8 @@ public class Selling extends javax.swing.JFrame {
         Billtxt = new javax.swing.JTextArea();
         lblTotal = new javax.swing.JLabel();
         lblHome = new javax.swing.JLabel();
-        lblDanhmuc_ = new javax.swing.JLabel();
         lblDanhmuc2 = new javax.swing.JLabel();
-        lblSanpham = new javax.swing.JLabel();
-        lblNhanvien = new javax.swing.JLabel();
         lblNhanvien1 = new javax.swing.JLabel();
-        lblNhanvien2 = new javax.swing.JLabel();
         lblDangXuat = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -160,24 +169,6 @@ public class Selling extends javax.swing.JFrame {
             }
         });
 
-        ProdPrice.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        ProdPrice.setForeground(new java.awt.Color(0, 153, 255));
-        ProdPrice.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ProdPriceActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setBackground(new java.awt.Color(0, 153, 255));
-        jLabel12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Giá");
-
-        jLabel13.setBackground(new java.awt.Color(0, 153, 255));
-        jLabel13.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Danh mục");
-
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -196,15 +187,7 @@ public class Selling extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ProdName, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BillId, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(52, 52, 52)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(ProdPrice)
-                            .addComponent(CatCb, 0, 207, Short.MAX_VALUE))))
+                            .addComponent(BillId, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -222,15 +205,7 @@ public class Selling extends javax.swing.JFrame {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ProdQty, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ProdPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CatCb, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(0, 153, 255));
@@ -246,11 +221,6 @@ public class Selling extends javax.swing.JFrame {
         AddBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 AddBtnMouseClicked(evt);
-            }
-        });
-        AddBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddBtnActionPerformed(evt);
             }
         });
 
@@ -327,7 +297,7 @@ public class Selling extends javax.swing.JFrame {
                 .addComponent(PrintBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ClearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         ProductTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -435,7 +405,7 @@ public class Selling extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
@@ -476,16 +446,6 @@ public class Selling extends javax.swing.JFrame {
             }
         });
 
-        lblDanhmuc_.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblDanhmuc_.setForeground(new java.awt.Color(255, 255, 255));
-        lblDanhmuc_.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-property-40.png"))); // NOI18N
-        lblDanhmuc_.setText("Danh mục");
-        lblDanhmuc_.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblDanhmuc_MouseClicked(evt);
-            }
-        });
-
         lblDanhmuc2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblDanhmuc2.setForeground(new java.awt.Color(255, 255, 255));
         lblDanhmuc2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-reminder-40.png"))); // NOI18N
@@ -496,35 +456,10 @@ public class Selling extends javax.swing.JFrame {
             }
         });
 
-        lblSanpham.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblSanpham.setForeground(new java.awt.Color(255, 255, 255));
-        lblSanpham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
-        lblSanpham.setText("Sản phẩm");
-        lblSanpham.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblSanphamMouseClicked(evt);
-            }
-        });
-
-        lblNhanvien.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblNhanvien.setForeground(new java.awt.Color(255, 255, 255));
-        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
-        lblNhanvien.setText("Nhân viên");
-        lblNhanvien.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblNhanvienMouseClicked(evt);
-            }
-        });
-
         lblNhanvien1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblNhanvien1.setForeground(new java.awt.Color(255, 255, 255));
         lblNhanvien1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
         lblNhanvien1.setText("Nhân viên");
-
-        lblNhanvien2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        lblNhanvien2.setForeground(new java.awt.Color(255, 255, 255));
-        lblNhanvien2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
-        lblNhanvien2.setText("Nhân viên");
 
         lblDangXuat.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblDangXuat.setForeground(new java.awt.Color(255, 255, 255));
@@ -543,28 +478,16 @@ public class Selling extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblDanhmuc_)
-                            .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblHome)
-                            .addComponent(lblDanhmuc2)
-                            .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                        .addComponent(lblDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                    .addComponent(lblHome)
+                    .addComponent(lblDanhmuc2)
+                    .addComponent(lblDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(lblNhanvien1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel10Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(lblNhanvien2)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanel10Layout.setVerticalGroup(
@@ -573,15 +496,9 @@ public class Selling extends javax.swing.JFrame {
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(84, 84, 84)
                 .addComponent(lblHome, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(lblDanhmuc_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(34, 34, 34)
                 .addComponent(lblDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblDanhmuc2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -590,11 +507,6 @@ public class Selling extends javax.swing.JFrame {
                 .addGroup(jPanel10Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(lblNhanvien1)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel10Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(lblNhanvien2)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -623,10 +535,6 @@ public class Selling extends javax.swing.JFrame {
     private void ProdQtyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProdQtyActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ProdQtyActionPerformed
-
-    private void ProdPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProdPriceActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProdPriceActionPerformed
 int i=0;
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
         // TODO add your handling code here:
@@ -640,32 +548,28 @@ int i=0;
             {
                 JOptionPane.showMessageDialog(this, "Không đủ số lượng để đáp ứng");
             }
-           
-        else{
-            i++;
-            ProdTotal = Uprice *Double.valueOf(ProdQty.getText());
-            GrdTotal = GrdTotal+ProdTotal;
-            
-            if(i==1)
-            {
-                Billtxt.setText(Billtxt.getText()+" =======3TMART=========\n"
-                        +"\t Mã đơn hàng     Tên sản phẩm     Giá        Số lượng       Tổng tiền\n\t"
-                        +i+"      "+ProdName.getText()+"      "+Uprice+"      "+ProdQty.getText()+"     "+ProdTotal+"\n\t");
-            }
             else{
-                  Billtxt.setText(Billtxt.getText()+
-                        i+"      "+ProdName.getText()+"      "+Uprice+"      "+ProdQty.getText()+"     "+ProdTotal+"\n\t");
-            }
+                i++;
+                ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
+                GrdTotal = GrdTotal+ProdTotal;
+
+                if(i==1)
+                {
+                    Billtxt.setText(Billtxt.getText()+" =======3TMART=========\n"
+                            +"\t Mã đơn hàng     Tên sản phẩm     Giá        Số lượng       Tổng tiền\n\t"
+                           +i+"      "+ProdName.getText()+"      "+Uprice+"      "+ProdQty.getText()+"     "+ProdTotal+"\n\t");
+    
+                            }
+                else{
+                      Billtxt.setText(Billtxt.getText()+
+                            i+"      "+ProdName.getText()+"      "+Uprice+"      "+ProdQty.getText()+"     "+ProdTotal+"\n\t");
+                }
             lblTotal.setText("Tổng Tiền :"+ GrdTotal);
             }
             update();
         }
       
     }//GEN-LAST:event_AddBtnMouseClicked
-
-    private void AddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddBtnActionPerformed
 
     private void RefreshBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshBtnMouseClicked
         // TODO add your handling code here:
@@ -691,38 +595,19 @@ int AvailQty,newQTY;
         DefaultTableModel model = (DefaultTableModel)ProductTable.getModel();
         int Myindex = ProductTable.getSelectedRow();    
         prid=Integer.valueOf(model.getValueAt(Myindex,0).toString());
-        AvailQty =Integer.valueOf(model.getValueAt(Myindex,2).toString());
-        newQTY=AvailQty-Integer.valueOf(ProdQty.getText());
-        Uprice = Double.valueOf(model.getValueAt(Myindex,3).toString());
-        ProdName.setText(model.getValueAt(Myindex,1).toString());
-      
+        ProdName.setText(model.getValueAt(Myindex,1).toString());  
+        AvailQty =Integer.valueOf(model.getValueAt(Myindex,2).toString());   
+        Uprice = Double.valueOf(model.getValueAt(Myindex,4).toString());
+        newQTY=AvailQty-Integer.valueOf(ProdQty.getText());   
     }//GEN-LAST:event_ProductTableMouseClicked
 
     private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lblHomeMouseClicked
 
-    private void lblDanhmuc_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDanhmuc_MouseClicked
-        // TODO add your handling code here:
-        new Categories().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_lblDanhmuc_MouseClicked
-
     private void lblDanhmuc2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDanhmuc2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lblDanhmuc2MouseClicked
-
-    private void lblSanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblSanphamMouseClicked
-        // TODO add your handling code here:
-        new Products().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_lblSanphamMouseClicked
-
-    private void lblNhanvienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNhanvienMouseClicked
-        // TODO add your handling code here:
-        new Staff().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_lblNhanvienMouseClicked
 
     private void RefreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshBtnActionPerformed
         // TODO add your handling code here:
@@ -785,19 +670,15 @@ int AvailQty,newQTY;
     private javax.swing.JButton AddBtn;
     private javax.swing.JTextField BillId;
     private javax.swing.JTextArea Billtxt;
-    private javax.swing.JComboBox<String> CatCb;
     private javax.swing.JButton ClearBtn;
     private javax.swing.JButton PrintBtn;
     private javax.swing.JTextField ProdName;
-    private javax.swing.JTextField ProdPrice;
     private javax.swing.JTextField ProdQty;
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton RefreshBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel7;
@@ -813,12 +694,8 @@ int AvailQty,newQTY;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblDangXuat;
     private javax.swing.JLabel lblDanhmuc2;
-    private javax.swing.JLabel lblDanhmuc_;
     private javax.swing.JLabel lblHome;
-    private javax.swing.JLabel lblNhanvien;
     private javax.swing.JLabel lblNhanvien1;
-    private javax.swing.JLabel lblNhanvien2;
-    private javax.swing.JLabel lblSanpham;
     private javax.swing.JLabel lblTotal;
     // End of variables declaration//GEN-END:variables
 }
