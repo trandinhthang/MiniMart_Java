@@ -272,6 +272,11 @@ public class Products extends javax.swing.JFrame {
                 UpdateBtnMouseClicked(evt);
             }
         });
+        UpdateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateBtnActionPerformed(evt);
+            }
+        });
 
         ClearBtn.setBackground(new java.awt.Color(255, 255, 255));
         ClearBtn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -645,7 +650,7 @@ public class Products extends javax.swing.JFrame {
                  Statement Add = Con.createStatement();
                  Add.executeUpdate(Query);
                  JOptionPane.showMessageDialog(this, "Cập nhật sản phẩm thành công");
-                 SelectProduct();
+                SelectProduct();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -682,6 +687,10 @@ public class Products extends javax.swing.JFrame {
         new Staff().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lblNhanvienMouseClicked
+
+    private void UpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_UpdateBtnActionPerformed
 
     /**
      * @param args the command line arguments
