@@ -14,6 +14,7 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+
 // OK
 
 /**
@@ -84,6 +85,7 @@ public class Categories extends javax.swing.JFrame {
         lblDanhmuc_ = new javax.swing.JLabel();
         lblDanhmuc2 = new javax.swing.JLabel();
         lblSanpham = new javax.swing.JLabel();
+        lblNhanvien = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -425,6 +427,16 @@ public class Categories extends javax.swing.JFrame {
             }
         });
 
+        lblNhanvien.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblNhanvien.setForeground(new java.awt.Color(255, 255, 255));
+        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/seller.png"))); // NOI18N
+        lblNhanvien.setText("Nhân viên");
+        lblNhanvien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblNhanvienMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
@@ -432,11 +444,16 @@ public class Categories extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDanhmuc_)
-                    .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblHome)
-                    .addComponent(lblDanhmuc2))
-                .addGap(20, 20, 20)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDanhmuc_)
+                            .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblHome)
+                            .addComponent(lblDanhmuc2))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                        .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -452,6 +469,8 @@ public class Categories extends javax.swing.JFrame {
                 .addComponent(lblDanhmuc_, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblDanhmuc2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
@@ -584,6 +603,12 @@ public class Categories extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CatDesActionPerformed
 
+    private void lblNhanvienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblNhanvienMouseClicked
+        // TODO add your handling code here:
+        new Staff().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblNhanvienMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -646,6 +671,7 @@ public class Categories extends javax.swing.JFrame {
     private javax.swing.JLabel lblDanhmuc2;
     private javax.swing.JLabel lblDanhmuc_;
     private javax.swing.JLabel lblHome;
+    private javax.swing.JLabel lblNhanvien;
     private javax.swing.JLabel lblSanpham;
     // End of variables declaration//GEN-END:variables
 }

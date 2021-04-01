@@ -83,6 +83,7 @@ public class Staff extends javax.swing.JFrame {
         lblDanhmuc2 = new javax.swing.JLabel();
         lblSanpham = new javax.swing.JLabel();
         lblNhanvien = new javax.swing.JLabel();
+        lblDanhmuc3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -446,11 +447,21 @@ public class Staff extends javax.swing.JFrame {
 
         lblNhanvien.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblNhanvien.setForeground(new java.awt.Color(255, 255, 255));
-        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
+        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/seller.png"))); // NOI18N
         lblNhanvien.setText("Nhân viên");
         lblNhanvien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblNhanvienMouseClicked(evt);
+            }
+        });
+
+        lblDanhmuc3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lblDanhmuc3.setForeground(new java.awt.Color(255, 255, 255));
+        lblDanhmuc3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logout.png"))); // NOI18N
+        lblDanhmuc3.setText("Đăng xuất");
+        lblDanhmuc3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblDanhmuc3MouseClicked(evt);
             }
         });
 
@@ -466,7 +477,8 @@ public class Staff extends javax.swing.JFrame {
                             .addComponent(lblDanhmuc_)
                             .addComponent(lblSanpham, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblHome)
-                            .addComponent(lblDanhmuc2))
+                            .addComponent(lblDanhmuc2)
+                            .addComponent(lblDanhmuc3))
                         .addGap(20, 20, 20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
                         .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -489,6 +501,8 @@ public class Staff extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(lblNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblDanhmuc3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblDanhmuc2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -505,6 +519,7 @@ public class Staff extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void SelIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelIdActionPerformed
@@ -634,6 +649,12 @@ public class Staff extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblNhanvienMouseClicked
 
+    private void lblDanhmuc3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDanhmuc3MouseClicked
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblDanhmuc3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -697,6 +718,7 @@ public class Staff extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDanhmuc2;
+    private javax.swing.JLabel lblDanhmuc3;
     private javax.swing.JLabel lblDanhmuc_;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblNhanvien;

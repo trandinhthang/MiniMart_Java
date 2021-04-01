@@ -489,7 +489,7 @@ public class Products extends javax.swing.JFrame {
 
         lblNhanvien.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lblNhanvien.setForeground(new java.awt.Color(255, 255, 255));
-        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-add-tag-40.png"))); // NOI18N
+        lblNhanvien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/seller.png"))); // NOI18N
         lblNhanvien.setText("Nhân viên");
         lblNhanvien.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
