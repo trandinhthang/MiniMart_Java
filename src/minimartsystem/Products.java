@@ -51,7 +51,7 @@ public class Products extends javax.swing.JFrame {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
             St = Con.createStatement();
-            String query = "Select * from APP.CATEGORYTBL";
+            String query = "Select distinct CATNAME from APP.CATEGORYTBL";
             Rs = St.executeQuery(query);
             while(Rs.next()){
                 String Mycat = Rs.getString("CATNAME");
@@ -672,12 +672,6 @@ public class Products extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblSanphamMouseClicked
 
-    private void lblDanhmuc_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDanhmuc_MouseClicked
-        // TODO add your handling code here:
-        new Categories().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_lblDanhmuc_MouseClicked
-
     private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_lblHomeMouseClicked
@@ -691,6 +685,12 @@ public class Products extends javax.swing.JFrame {
     private void UpdateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_UpdateBtnActionPerformed
+
+    private void lblDanhmuc_MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDanhmuc_MouseClicked
+        // TODO add your handling code here:
+        new Categories().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lblDanhmuc_MouseClicked
 
     /**
      * @param args the command line arguments
