@@ -336,15 +336,20 @@ public class Products extends javax.swing.JFrame {
         ProductTable.setForeground(new java.awt.Color(51, 0, 153));
         ProductTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá", "Danh mục"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         ProductTable.setGridColor(new java.awt.Color(0, 153, 153));
         ProductTable.setRowHeight(25);
         ProductTable.setRowMargin(2);
