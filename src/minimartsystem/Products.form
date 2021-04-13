@@ -407,12 +407,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="ClearBtn" min="-2" pref="90" max="-2" attributes="0"/>
-                              <Component id="DeleteBtn" min="-2" pref="90" max="-2" attributes="0"/>
-                              <Component id="UpdateBtn" min="-2" pref="90" max="-2" attributes="0"/>
-                              <Component id="AddBtn" min="-2" pref="90" max="-2" attributes="0"/>
+                              <Component id="ClearBtn" pref="90" max="32767" attributes="0"/>
+                              <Component id="DeleteBtn" max="32767" attributes="0"/>
+                              <Component id="UpdateBtn" max="32767" attributes="0"/>
+                              <Component id="AddBtn" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="37" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
