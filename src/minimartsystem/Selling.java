@@ -5,12 +5,18 @@
  */
 package minimartsystem;
 
+
+import java.io.File;
+import java.io.FileWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
@@ -37,6 +43,15 @@ public class Selling extends javax.swing.JFrame {
     Statement St = null;
     ResultSet Rs = null;
   // click được từng item trong table
+   
+    private int GetProductBillRow(String ProductName) {
+        DefaultTableModel model = (DefaultTableModel)HoaDontbl.getModel(); 
+        for (int i = 0;i< model.getRowCount(); i++)  { 
+               if(model.getValueAt(i, 1).toString().equals(ProductName.trim())) 
+                    return i;             
+        } 
+        return -1;
+    }
     public void SelectProduct() {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
@@ -78,20 +93,8 @@ int prid,newQTY;
             }
     }
     
-     public void update1()
-    {
-         try {
-                 Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
-                 String Query = "Update APP.PRODUCTTBL set PRODQTY="+newQTY+""+ "where PRODNAME="+ProdName.getText();
-                 Statement Add = Con.createStatement();
-                 Add.executeUpdate(Query);               
-                SelectProduct();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-    }
-   
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,18 +118,18 @@ int prid,newQTY;
         AddBtn = new javax.swing.JButton();
         RefreshBtn = new javax.swing.JButton();
         ClearBtn = new javax.swing.JButton();
+        ThanhToanbtn = new javax.swing.JButton();
+        btnIn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         ProductTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        Testlbl = new javax.swing.JLabel();
+        TongTienlbl = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
-        TongTienlbl = new javax.swing.JLabel();
-        ThanhToanbtn = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         HoaDontbl = new javax.swing.JTable();
         lblHome = new javax.swing.JLabel();
@@ -219,7 +222,7 @@ int prid,newQTY;
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ProdPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jPanel13.setBackground(new java.awt.Color(0, 153, 255));
@@ -269,16 +272,38 @@ int prid,newQTY;
             }
         });
 
+        ThanhToanbtn.setText("Thanh Toán");
+        ThanhToanbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ThanhToanbtnMouseClicked(evt);
+            }
+        });
+
+        btnIn.setBackground(new java.awt.Color(255, 255, 255));
+        btnIn.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btnIn.setForeground(new java.awt.Color(0, 153, 255));
+        btnIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-broom-25.png"))); // NOI18N
+        btnIn.setText("In");
+        btnIn.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        btnIn.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnInMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel13Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ClearBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(AddBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(RefreshBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnIn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(RefreshBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ThanhToanbtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ClearBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel13Layout.setVerticalGroup(
@@ -288,9 +313,13 @@ int prid,newQTY;
                 .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(RefreshBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addGap(13, 13, 13)
                 .addComponent(ClearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btnIn, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(ThanhToanbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         ProductTable.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -335,6 +364,8 @@ int prid,newQTY;
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("HÓA ĐƠN");
 
+        TongTienlbl.setText("Tổng tiền : ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -342,19 +373,16 @@ int prid,newQTY;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(278, 278, 278)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
-                .addComponent(Testlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(TongTienlbl)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(Testlbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18))
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TongTienlbl))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -396,15 +424,6 @@ int prid,newQTY;
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
         );
-
-        TongTienlbl.setText("Tổng tiền : ");
-
-        ThanhToanbtn.setText("Thanh Toán");
-        ThanhToanbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ThanhToanbtnMouseClicked(evt);
-            }
-        });
 
         HoaDontbl.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         HoaDontbl.setForeground(new java.awt.Color(51, 0, 153));
@@ -459,11 +478,6 @@ int prid,newQTY;
                         .addGap(29, 29, 29)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(TongTienlbl)
-                        .addGap(166, 166, 166)
-                        .addComponent(ThanhToanbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -490,12 +504,7 @@ int prid,newQTY;
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ThanhToanbtn, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addComponent(TongTienlbl)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
 
         lblHome.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -532,13 +541,13 @@ int prid,newQTY;
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblHome)
                         .addComponent(lblDanhmuc2))
-                    .addComponent(lblDangXuat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
                 .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -595,11 +604,8 @@ int prod = 0;
                        
                 ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
                 GrdTotal = GrdTotal+ProdTotal;          
-                              
-//                    Billtxt.setText(Billtxt.getText()+" \t=======3TMART=========\n"
-//                            +"STT     Tên sản phẩm           Giá          Số lượng       Tổng tiền\n"
-//                           +"  " +i+"               "+ProdName.getText()+"               "+Uprice+"            "+ProdQty.getText()+"            "+ProdTotal+"\n");
-                     DefaultTableModel model = (DefaultTableModel)HoaDontbl.getModel();                  
+                                                
+                    DefaultTableModel model = (DefaultTableModel)HoaDontbl.getModel();                  
                     int STT = 1;  
                     if(model.getRowCount()> 0) 
                     { 
@@ -615,10 +621,7 @@ int prod = 0;
                     ProdName.setText("");
                     ProdQty.setText("");
                     ProdPrice.setText("");  
-                          
-//                      Billtxt.setText(Billtxt.getText()+
-//                           "  " +i+"               "+ProdName.getText()+"               "+Uprice+"            "+ProdQty.getText()+"            "+ProdTotal+"\n");                                                                              
-            TongTienlbl.setText("Tổng Tiền :"+GrdTotal);                 
+                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);
             }   
             
         }    
@@ -637,37 +640,22 @@ int prod = 0;
                 String ten = ProdName.getText();
                 int SoLuongMoi = Integer.valueOf(ProdQty.getText());
                 int SL = SoLuongMoi-SoLuongCu; 
-                if(SL>0)
+                if(SL>0||SL<0)
                 {          
                        newQTY =  newQTY - SL;
-                       AvailQty = newQTY;
-                       Testlbl.setText(String.valueOf( AvailQty));
-                       DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();
+                       AvailQty = newQTY;                     
+                       DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();                   
                        for(int i = 0; i < ProductTable.getRowCount(); i++){                         
-                                if(ProductTable.getModel().getValueAt(i,1).equals(ten)){                                                     
+                                if(ProductTable.getModel().getValueAt(i,1).equals(ten)){   
+                                      prid=Integer.valueOf(model1.getValueAt(i,0).toString());  
                                 model1.setValueAt(newQTY,i,2);
-                               
-                        } 
+                                update();                          
+                        }
+                      
                        }
-                       update1(); 
+                      
+                              
                 }
-                else
-                 {                
-                       if(SL<0) 
-                         {          
-                       newQTY =  newQTY - SL;
-                       AvailQty = newQTY;
-                       Testlbl.setText(String.valueOf( AvailQty));
-                       DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();
-                       for(int i = 0; i < ProductTable.getRowCount(); i++){                         
-                                if(ProductTable.getModel().getValueAt(i,1).equals(ten)){                                                     
-                                model1.setValueAt(newQTY,i,2);
-                               
-                        } 
-                       }
-                       update1(); 
-                }                   
-                }                   
             } 
             
             catch(Exception ex) 
@@ -678,9 +666,56 @@ int prod = 0;
 
     private void ClearBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClearBtnMouseClicked
         // TODO add your handling code here:
-        ProdName.setText("");
-        ProdQty.setText("");
-        ProdPrice.setText("");       
+        try
+        {
+            int row = GetProductBillRow(ProdName.getText());
+
+            // check sach co ton tai hay khong
+            if(row == -1)
+            {
+                throw new Exception("Không tìm thấy sản phẩm trong bill cần xóa!");
+            }
+
+            // delete sach
+            else
+            {
+                int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc xóa không?", "Trả lời", JOptionPane.YES_NO_OPTION);
+
+                // check neu dong y delete
+                if(input == 0)
+                { 
+                    ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
+                    GrdTotal = GrdTotal+ProdTotal;    
+                    String ten = ProdName.getText();
+                    DefaultTableModel model = (DefaultTableModel) HoaDontbl.getModel();
+               
+                      newQTY =  newQTY + Integer.parseInt(model.getValueAt(row,2).toString());
+                       model.removeRow(row);
+                       AvailQty = newQTY;                     
+                       DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();                   
+                       for(int i = 0; i < ProductTable.getRowCount(); i++){                         
+                                if(ProductTable.getModel().getValueAt(i,1).equals(ten)){   
+                                      prid=Integer.valueOf(model1.getValueAt(i,0).toString());  
+                                model1.setValueAt(newQTY,i,2);
+                                update();                          
+                        }
+                      
+                       }
+                    JOptionPane.showMessageDialog(this, "Xóa thành công!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        model.setValueAt(i+1, 1, 0);               
+                    }
+                    ProdName.setText("");
+                    ProdQty.setText("");
+                    ProdPrice.setText("");  
+                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);
+                }
+            }
+
+        }    catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }    
     }//GEN-LAST:event_ClearBtnMouseClicked
     
  
@@ -696,6 +731,8 @@ int AvailQty;
         ProdName.setText(model.getValueAt(Myindex,1).toString());  
         Uprice = Double.valueOf(model.getValueAt(Myindex,3).toString());    
         ProdPrice.setText(model.getValueAt(Myindex,3).toString());
+       
+
     }//GEN-LAST:event_ProductTableMouseClicked
 
     private void lblHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHomeMouseClicked
@@ -727,8 +764,31 @@ int AvailQty;
 
     private void ThanhToanbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThanhToanbtnMouseClicked
         // TODO add your handling code here:
-//           Billtxt.setText(Billtxt.getText()+"------------------------------------------------------------------------------------------\n"
-//                         +"                             \t\t\t"+GrdTotal);    
+        int input = JOptionPane.showConfirmDialog(null, "Bạn có muốn in hóa đơn không?", "Cảnh báo", JOptionPane.YES_NO_OPTION); 
+                      // 0=yes, 1=no, 2=cancel 
+                      if(input == 0)  //th yes 
+                      {           
+               
+                           try{
+                                FileWriter os = new FileWriter("D:\\HoaDon.txt");
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                Date date = new Date();        
+                                os.write(" \t                  =======3TMART=========\n");
+                                os.write("\t\t\t    "+String.valueOf(dateFormat.format(date))+"\n"); 
+                                os.write("STT     Tên sản phẩm           Giá          Số lượng       Tổng tiền\n"                              );
+                                        for(int i=0;i<HoaDontbl.getRowCount();i++)
+                                        {
+                                                os.write(HoaDontbl.getValueAt(i,0).toString()+"       "+HoaDontbl.getValueAt(i,1).toString()+"               "+HoaDontbl.getValueAt(i,3).toString()+"            "+HoaDontbl.getValueAt(i,2).toString()+"            "+HoaDontbl.getValueAt(i,4).toString()+"\n");          
+                                        }  
+                                        os.write("------------------------------------------------------------------------------------------\n"
+                                 +"                             \t\t\tTổng tiền :   "+GrdTotal);                             
+                            }catch(Exception e)
+                            {
+                                System.out.println(e);
+                            }
+                          
+                      }                 
+          
     }//GEN-LAST:event_ThanhToanbtnMouseClicked
 
     private void HoaDontblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HoaDontblMouseClicked
@@ -749,6 +809,19 @@ int AvailQty;
              JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE); 
         }   
     }//GEN-LAST:event_HoaDontblMouseClicked
+
+    private void btnInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInMouseClicked
+        // TODO add your handling code here:
+         try          
+        { 
+            HoaDontbl.print();
+            File file = new File("D:\\HoaDon.txt");       
+         } 
+        catch(Exception ex) 
+        { 
+             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE); 
+        }   
+    }//GEN-LAST:event_btnInMouseClicked
 
     /**
      * @param args the command line arguments
@@ -795,9 +868,9 @@ int AvailQty;
     private javax.swing.JTextField ProdQty;
     private javax.swing.JTable ProductTable;
     private javax.swing.JButton RefreshBtn;
-    private javax.swing.JLabel Testlbl;
     private javax.swing.JButton ThanhToanbtn;
     private javax.swing.JLabel TongTienlbl;
+    private javax.swing.JButton btnIn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
