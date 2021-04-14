@@ -37,6 +37,10 @@ public class Selling extends javax.swing.JFrame {
         GetCat();
         ProdName.setEditable(false);
         ProdPrice.setEditable(false);
+        GrdTotal=0.0;
+        TongTienlbl.setText("Tổng tiền : " + GrdTotal); 
+                
+       
 //        Billtxt.setEditable(false);
     }
     Connection Con = null;
@@ -52,6 +56,7 @@ public class Selling extends javax.swing.JFrame {
         } 
         return -1;
     }
+    
     public void SelectProduct() {
         try {
             Con = DriverManager.getConnection("jdbc:derby://localhost:1527/MartSystemDb");
@@ -125,6 +130,7 @@ int prid,newQTY;
         jPanel1 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         TongTienlbl = new javax.swing.JLabel();
+        t = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -371,7 +377,9 @@ int prid,newQTY;
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(278, 278, 278)
+                .addGap(126, 126, 126)
+                .addComponent(t, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34)
                 .addComponent(TongTienlbl)
@@ -382,7 +390,8 @@ int prid,newQTY;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TongTienlbl))
+                    .addComponent(TongTienlbl)
+                    .addComponent(t))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -467,7 +476,6 @@ int prid,newQTY;
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27)
@@ -481,7 +489,10 @@ int prid,newQTY;
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel11Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
@@ -587,7 +598,6 @@ int prid,newQTY;
 
 
 int prod = 0;
-
     private void AddBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBtnMouseClicked
         // TODO add your handling code here:
         if(ProdQty.getText().isEmpty()||ProdName.getText().isEmpty())
@@ -601,19 +611,22 @@ int prod = 0;
                 JOptionPane.showMessageDialog(this, "Không đủ số lượng để đáp ứng");
             }
             else{
-                       
-                ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
-                GrdTotal = GrdTotal+ProdTotal;          
+                DefaultTableModel model = (DefaultTableModel)HoaDontbl.getModel();
+                int STT = 1;      
+                 if(model.getRowCount()>0 ) 
+                    {
+                         STT = (int) model.getValueAt(model.getRowCount()-1, 0); 
+                         STT++;  
                                                 
-                    DefaultTableModel model = (DefaultTableModel)HoaDontbl.getModel();                  
-                    int STT = 1;  
-                    if(model.getRowCount()> 0) 
-                    { 
-                       STT = (int) model.getValueAt(model.getRowCount()-1, 0); 
-                       STT++; 
-                    }                   
-                    model.addRow(new Object[]{ STT , ProdName.getText()  , Integer.parseInt(ProdQty.getText()), Double.parseDouble(ProdPrice.getText()), Integer.parseInt(ProdQty.getText())*Double.parseDouble(ProdPrice.getText())});  
-                  
+                    }          
+                  model.addRow(new Object[]{ STT , ProdName.getText()  , Integer.parseInt(ProdQty.getText()), Double.parseDouble(ProdPrice.getText()), Integer.parseInt(ProdQty.getText())*Double.parseDouble(ProdPrice.getText())});           
+                 
+                 
+                   
+                                                
+                ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
+                GrdTotal = GrdTotal+ProdTotal; 
+             
                     prod =Integer.valueOf(ProdQty.getText());
                     newQTY = AvailQty - prod;                                                     
                     update(); 
@@ -621,41 +634,66 @@ int prod = 0;
                     ProdName.setText("");
                     ProdQty.setText("");
                     ProdPrice.setText("");  
-                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);
+                    if(model.getRowCount()<0)
+                {
+                     GrdTotal=0.0;
+                     TongTienlbl.setText("Tổng tiền : " + GrdTotal);  
+                }
+                else
+                {
+                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);   
+                }       
             }   
             
-        }    
+            
+        }
     }//GEN-LAST:event_AddBtnMouseClicked
 
     private void RefreshBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshBtnMouseClicked
         // TODO add your handling code here:
           try          
-            {                      
+            {      
                 ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
-                GrdTotal = GrdTotal+ProdTotal;        
                 DefaultTableModel model = (DefaultTableModel) HoaDontbl.getModel(); 
                 int row = HoaDontbl.getSelectedRow();  
                 int SoLuongCu = Integer.valueOf(model.getValueAt(row,2).toString());
                 model.setValueAt(Integer.parseInt(ProdQty.getText()),row, 2);
                 String ten = ProdName.getText();
+                
                 int SoLuongMoi = Integer.valueOf(ProdQty.getText());
                 int SL = SoLuongMoi-SoLuongCu; 
                 if(SL>0||SL<0)
-                {          
+                {                              
                        newQTY =  newQTY - SL;
                        AvailQty = newQTY;                     
                        DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();                   
                        for(int i = 0; i < ProductTable.getRowCount(); i++){                         
                                 if(ProductTable.getModel().getValueAt(i,1).equals(ten)){   
-                                      prid=Integer.valueOf(model1.getValueAt(i,0).toString());  
-                                model1.setValueAt(newQTY,i,2);
+                                prid=Integer.valueOf(model1.getValueAt(i,0).toString());  
+                                model1.setValueAt(newQTY,i,2); 
+                                model.setValueAt(ProdTotal,row, 4);                            
                                 update();                          
-                        }
+                        }   
+                       } 
                       
-                       }
-                      
-                              
-                }
+                        GrdTotal=0.0;         
+                        Double TongTienMoi =0.0;
+                        for(int i = 0; i < HoaDontbl.getRowCount(); i++)
+                       {
+                           TongTienMoi = Double.parseDouble(model.getValueAt(i,4).toString());                                            
+                           GrdTotal += TongTienMoi;
+                       }    
+                        if(model.getRowCount()<0)
+                    {
+                         GrdTotal=0.0;
+                         TongTienlbl.setText("Tổng tiền : " + GrdTotal);  
+                    }
+                    else
+                    {
+                        TongTienlbl.setText("Tổng tiền : " + GrdTotal);   
+                    }       
+                    }
+                    
             } 
             
             catch(Exception ex) 
@@ -676,39 +714,50 @@ int prod = 0;
                 throw new Exception("Không tìm thấy sản phẩm trong bill cần xóa!");
             }
 
-            // delete sach
+           
             else
             {
                 int input = JOptionPane.showConfirmDialog(null, "Bạn có chắc xóa không?", "Trả lời", JOptionPane.YES_NO_OPTION);
-
-                // check neu dong y delete
+           
+              
                 if(input == 0)
-                { 
-                    ProdTotal = Uprice *Integer.valueOf(ProdQty.getText());
-                    GrdTotal = GrdTotal+ProdTotal;    
+                {                    
                     String ten = ProdName.getText();
-                    DefaultTableModel model = (DefaultTableModel) HoaDontbl.getModel();
-               
-                      newQTY =  newQTY + Integer.parseInt(model.getValueAt(row,2).toString());
-                       model.removeRow(row);
-                       AvailQty = newQTY;                     
-                       DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();                   
+                    DefaultTableModel model = (DefaultTableModel) HoaDontbl.getModel();                 
+                    newQTY =  newQTY + Integer.parseInt(model.getValueAt(row,2).toString());
+                    ProdTotal= Double.parseDouble(model.getValueAt(row, 4).toString());
+                    GrdTotal = GrdTotal-ProdTotal;  
+                    model.removeRow(row);   
+                                    
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        model.setValueAt(i+1, i, 0);
+                       
+                    }  
+                                                                     
+                    AvailQty = newQTY;                     
+                    DefaultTableModel model1 = (DefaultTableModel)ProductTable.getModel();                   
                        for(int i = 0; i < ProductTable.getRowCount(); i++){                         
                                 if(ProductTable.getModel().getValueAt(i,1).equals(ten)){   
-                                      prid=Integer.valueOf(model1.getValueAt(i,0).toString());  
+                                prid=Integer.valueOf(model1.getValueAt(i,0).toString());                                   
                                 model1.setValueAt(newQTY,i,2);
                                 update();                          
-                        }
-                      
+                        }                     
                        }
                     JOptionPane.showMessageDialog(this, "Xóa thành công!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-                    for (int i = 0; i < model.getRowCount(); i++) {
-                        model.setValueAt(i+1, 1, 0);               
-                    }
+                  
                     ProdName.setText("");
                     ProdQty.setText("");
                     ProdPrice.setText("");  
-                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);
+                  
+                      if(model.getRowCount()<0)
+                {
+                     GrdTotal=0.0;
+                     TongTienlbl.setText("Tổng tiền : " + GrdTotal);  
+                }
+                else
+                {
+                    TongTienlbl.setText("Tổng tiền : " + GrdTotal);   
+                }       
                 }
             }
 
@@ -767,21 +816,21 @@ int AvailQty;
         int input = JOptionPane.showConfirmDialog(null, "Bạn có muốn in hóa đơn không?", "Cảnh báo", JOptionPane.YES_NO_OPTION); 
                       // 0=yes, 1=no, 2=cancel 
                       if(input == 0)  //th yes 
-                      {           
-               
+                      {                 
                            try{
-                                FileWriter os = new FileWriter("D:\\HoaDon.txt");
+                                FileWriter os = new FileWriter("D:\\Bill.txt");
                                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                 Date date = new Date();        
-                                os.write(" \t                  =======3TMART=========\n");
-                                os.write("\t\t\t    "+String.valueOf(dateFormat.format(date))+"\n"); 
+                               os.write(" \t                  =======3TMART=========\n");
+                              os.write("\t\t\t    "+String.valueOf(dateFormat.format(date))+"\n"); 
                                 os.write("STT     Tên sản phẩm           Giá          Số lượng       Tổng tiền\n"                              );
                                         for(int i=0;i<HoaDontbl.getRowCount();i++)
                                         {
                                                 os.write(HoaDontbl.getValueAt(i,0).toString()+"       "+HoaDontbl.getValueAt(i,1).toString()+"               "+HoaDontbl.getValueAt(i,3).toString()+"            "+HoaDontbl.getValueAt(i,2).toString()+"            "+HoaDontbl.getValueAt(i,4).toString()+"\n");          
                                         }  
                                         os.write("------------------------------------------------------------------------------------------\n"
-                                 +"                             \t\t\tTổng tiền :   "+GrdTotal);                             
+                                 +"                             \t\t\tTổng tiền :   "+GrdTotal);
+                                os.close();
                             }catch(Exception e)
                             {
                                 System.out.println(e);
@@ -891,5 +940,6 @@ int AvailQty;
     private javax.swing.JLabel lblDanhmuc2;
     private javax.swing.JLabel lblHome;
     private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel t;
     // End of variables declaration//GEN-END:variables
 }
